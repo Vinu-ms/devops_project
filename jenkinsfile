@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         // Update this path if Flutter is installed elsewhere
-        FLUTTER_PATH = 'C:\Users\vinub\Downloads\flutter_windows_3.29.3-stable.zip\flutter'
+        FLUTTER_PATH = 'FLUTTER_PATH = 'C:\\Users\\vinub\\Downloads\\flutter_windows_3.29.3-stable.zip\\flutter\\bin'
+'
         PATH = "${env.PATH};${env.FLUTTER_PATH}"
     }
 
