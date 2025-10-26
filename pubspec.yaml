@@ -1,0 +1,23 @@
+name: movie_rating_app
+description: A simple movie rating app in Flutter.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.5
+  shared_preferences: ^2.1.1
+  flutter_rating_bar: ^4.0.1
+  uuid: ^3.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
