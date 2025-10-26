@@ -17,10 +17,13 @@ pipeline {
        
 
         stage('Get Dependencies') {
-            steps {
-                bat 'flutter pub get'
-            }
+        steps {
+             dir('devops_project') {   // <- your project folder name in repo
+            bat 'flutter pub get'
         }
+    }
+}
+
 
         stage('Run Tests') {
             steps {
