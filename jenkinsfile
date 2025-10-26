@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     environment {
-    FLUTTER_PATH = 'C:/Users/vinub/Downloads/flutter_windows_3.29.3-stable.zip/flutter/bin'
-    PATH = "${env.PATH};${env.FLUTTER_PATH}"
-}
-
+        FLUTTER_PATH = 'C:/Users/vinub/Downloads/flutter_windows_3.29.3-stable.zip/flutter/bin'
+        PATH = "${env.PATH};${env.FLUTTER_PATH}"
+    }
 
     stages {
         stage('Checkout') {
@@ -14,16 +13,20 @@ pipeline {
             }
         }
 
-       
+        stage('Check Flutter') {
+            steps {
+                bat 'flutter --version'
+            }
+        }
 
         stage('Get Dependencies') {
-        steps {
-             dir('devops_project') {   // <- your project folder name in repo
-            bat 'flutter pub get'
+            steps {
+                bat '''
+                flutter clean
+                flutter pub get
+                '''
+            }
         }
-    }
-}
-
 
         stage('Run Tests') {
             steps {
