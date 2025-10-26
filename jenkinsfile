@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     environment {
-    FLUTTER_PATH = 'C:/Users/vinub/Downloads/flutter_windows_3.29.3-stable.zip/flutter/bin'
-    PATH = "${env.PATH};${env.FLUTTER_PATH}"
-}
-
+        FLUTTER_PATH = 'C:/Users/vinub/Downloads/flutter_windows_3.29.3-stable/flutter/bin'
+        PATH = "${env.PATH};${env.FLUTTER_PATH}"
+    }
 
     stages {
         stage('Checkout') {
@@ -14,32 +13,42 @@ pipeline {
             }
         }
 
+        stage('Flutter Doctor') {
+            steps {
+                bat 'flutter doctor -v'
+            }
+        }
+
         stage('Get Dependencies') {
-    steps {
-        bat '''
-        flutter clean
-        flutter pub get
-        '''
-    }
-}
-
-
+            steps {
+                dir('movie_rating_app') {  // Adjust if your pubspec.yaml is inside this folder
+                    bat '''
+                    flutter clean
+                    flutter pub get
+                    '''
+                }
+            }
+        }
 
         stage('Run Tests') {
             steps {
-                bat 'flutter test'
+                dir('movie_rating_app') {
+                    bat 'flutter test'
+                }
             }
         }
 
         stage('Build APK') {
             steps {
-                bat 'flutter build apk --release'
+                dir('movie_rating_app') {
+                    bat 'flutter build apk --release'
+                }
             }
         }
 
         stage('Archive APK') {
             steps {
-                archiveArtifacts artifacts: 'build\\app\\outputs\\flutter-apk\\app-release.apk', fingerprint: true
+                archiveArtifacts artifacts: 'movie_rating_app\\build\\app\\outputs\\flutter-apk\\app-release.apk', fingerprint: true
             }
         }
     }
