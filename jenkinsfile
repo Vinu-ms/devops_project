@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    environment {
+        // Update this path if Flutter is installed elsewhere
+        FLUTTER_PATH = 'C:\Users\vinub\Downloads\flutter_windows_3.29.3-stable.zip\flutter'
+        PATH = "${env.PATH};${env.FLUTTER_PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Vinu-ms/devops_project.git'
+            }
+        }
+
+       
+
+        stage('Get Dependencies') {
+            steps {
+                bat 'flutter pub get'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                bat 'flutter test'
+            }
+        }
+
+        stage('Build APK') {
+            steps {
+                bat 'flutter build apk --release'
+            }
+        }
+
+        stage('Archive APK') {
+            steps {
+                archiveArtifacts artifacts: 'build\\app\\outputs\\flutter-apk\\app-release.apk', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Flutter build completed successfully!'
+        }
+        failure {
+            echo '❌ Build failed. Check logs for details.'
+        }
+    }
+}
